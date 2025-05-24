@@ -10,11 +10,11 @@ cd build
 ```
 2. 
 ```sh
-make ..
+cmake ..
 ```
 3. 
 ```sh
-make --build ./
+cmake --build ./
 ```
 
 # Run
