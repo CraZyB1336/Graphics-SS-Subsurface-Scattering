@@ -1,6 +1,7 @@
 #include "util/specs.hpp"
 #include "util/callbacks.hpp"
 #include "program.hpp"
+#include "inputHandler.hpp"
 
 GLFWwindow* currentWindow;
 
@@ -35,7 +36,13 @@ void mainLoop()
 {
     while(!glfwWindowShouldClose(currentWindow))
     {
-        // Swaps the color buffer
+        // Input part of the loop
+        processInput(currentWindow);
+
+        // Rendering goes here
+        // ...
+
+        // Swaps the color buffers (to not flicker)
         glfwSwapBuffers(currentWindow);
         glfwPollEvents();
     }
