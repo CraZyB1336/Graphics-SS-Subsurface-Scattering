@@ -1,23 +1,23 @@
 # Graphics-SS-Subsurface-Scattering
 Project to implement subsurface scattering using screen space calculations.
 
-
-# How to build
-1. 
+# Building
+## How to build
 ```sh
 mkdir build
 cd build
-```
-2. 
-```sh
 cmake ..
-```
-3. 
-```sh
 cmake --build ./
 ```
-
-# Run
+## Run
 ```sh
 ./SSSS
+```
+
+## How to build using bash scripts.
+```sh
+./clean.sh # Creates a new build directory and cleans the cmake configurations.
+```
+```sh
+./start.sh # Builds and starts the SSSS program.
 ```

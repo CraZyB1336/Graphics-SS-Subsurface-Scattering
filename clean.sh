@@ -7,15 +7,18 @@ RESET='\e[0m\033[0m'
 ITALIC='\e[3m'
 BOLD='\033[1m'
 
-
+# Exit on any error
 set -e
 
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Cleaning CMake build directory... ${ITALIC}*scrub* *scrub*${RESET}"
+echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Cleaning CMake build directory... ${ITALIC}scrub scrub${RESET}"
 
+# Check if directory exists
 if test -d "build"; then
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Found existing build directory..."
 
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Removing build directory..."
+
+    # Try standard removal. If fails use sudo
     rm -rf build/ || {
         sudo rm -rf build/ || {
             echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Failed to remove build directory${RESET}"
@@ -43,7 +46,7 @@ cmake .. || {
 }
 
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}CMake build directory cleaned and configured${RESET}"
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Either run the build bash file \"cmake_start.sh\" or execute:
+echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Either run the build bash file \"start.sh\" or execute:
     ${BOLD}${CYAN}cd build${RESET}
     ${BOLD}${CYAN}cmake --build ./${RESET}
     ${BOLD}${CYAN}./SSSS\n${RESET}"
