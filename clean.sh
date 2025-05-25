@@ -51,6 +51,8 @@ else
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t No build directory found"
 fi
 
+
+# Creating build directory
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Creating build directory"
 mkdir build || {
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Creating build directory failed${RESET}"
@@ -59,10 +61,54 @@ mkdir build || {
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}Build directory successfully created${RESET}"
 cd build
 
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Initializing CMake Configurations..."
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ..."
-eval "cmake .. $( [[ $LOG == true ]] && echo "" || echo ">/dev/null")" || {
-    echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Initializing CMake Configurations failed"
+
+# Spinner animation
+cmake_with_spinner() {
+    local frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+    local log_file="/tmp/cmake_output.log"
+
+    if [ $LOG == true ]; then
+        cmake ..
+    else
+        cmake .. > "$log_file" 2>&1 &
+        local pid=$!
+
+        # Hide the cursor
+        tput civis
+
+        echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${RESET}Initializing CMake Configurations..."
+
+        # Animation
+        local frame_index=0
+        while kill -0 $pid 2>/dev/null; do
+            local frame=${frames[$frame_index]}
+            printf "\r${MAGENTA}${BOLD}[Clean]${RESET}\t ${GREEN}${BOLD}%s" "$frame"
+            frame_index=$(( (frame_index + 1) % ${#frames[@]} ))
+            sleep 0.08
+        done
+
+        wait $pid
+        local exit_code=$?
+
+        tput cnorm
+        printf "\r\033[K"
+
+        if [ $exit_code -eq 0 ]; then
+            echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}CMake configuration completed${RESET}"
+        else
+            echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}CMake configuration failed${RESET}"
+            echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Error details:"
+            while IFS= read -r line; do
+                echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${RED}$line"
+            done < "$log_file"
+        fi
+
+        rm -f "$log_file"
+        return $exit_code
+    fi
+}
+
+cmake_with_spinner || {
     exit 1
 }
 
@@ -73,5 +119,8 @@ if [ $CLEANSTART == false ]; then
     ${BOLD}${CYAN}cd build${RESET}
     ${BOLD}${CYAN}cmake --build ./${RESET}
     ${BOLD}${CYAN}./SSSS\n${RESET}"
-    echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
+
+    if [ $LOG == false ]; then
+        echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
+    fi
 fi
