@@ -25,6 +25,18 @@ void runProgram(GLFWwindow* window)
  */
 void initialize()
 {
+    // Activate the Z-buffer
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LESS);
+
+    glEnable(GL_CULL_FACE);
+    glDisable(GL_DITHER);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
     glViewport(0, 0, windowWidth, windowHeight);
     glfwSetFramebufferSizeCallback(currentWindow, viewportResizeCallback);
 }
@@ -36,13 +48,16 @@ void mainLoop()
 {
     while(!glfwWindowShouldClose(currentWindow))
     {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Input part of the loop
         processInput(currentWindow);
 
         // Rendering goes here
         // ...
-        glClearColor(0.77f, 0.32f, 0.86f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        
+        // UpdatingFrame (transforms and such)
+        // renderFrame (rendering shaders, etc)
+
 
         // Swaps the color buffers (to not flicker)
         glfwSwapBuffers(currentWindow);

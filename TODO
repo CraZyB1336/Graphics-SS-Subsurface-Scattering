@@ -1,0 +1,9 @@
+- Create SceneNode Structure (HIGH) (FIRST)
+    - Use SceneNodes to place in triangles.
+
+- Create Buffer generation for VAO's
+
+- Create Transformation handling
+- Create perspective projection from camera.
+
+- Load in obj files.

@@ -11,7 +11,8 @@ add_subdirectory(external/glfw)
 # Add directiores
 include_directories(src/
                     external/glad/include
-                    external/glfw/include)
+                    external/glfw/include
+                    external/glm/)
 
 # Add files
 file (GLOB          VENDORS_SOURCES     external/glad/src/glad.c)
