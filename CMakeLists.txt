@@ -10,10 +10,22 @@ add_subdirectory(external/glfw)
 
 # Add directiores
 include_directories(src/
+                    external/glad/include
                     external/glfw/include)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+# Add files
+file (GLOB          VENDORS_SOURCES     external/glad/src/glad.c)
+file (GLOB_RECURSE  PROJECT_HEADERS     src/*.hpp
+                                        src/*.h)
+file (GLOB_RECURSE  PROJECT_SOURCES     src/*.cpp
+                                        src/*.c)
+#file (GLOB_RECURSE  PROJECT_SHADERS     src)
+
+add_executable(${PROJECT_NAME}  ${PROJECT_SOURCES}
+                                ${PROJECT_HEADERS}
+                                ${VENDORS_SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
                         glfw
-                        ${GLFW_LIBRARIES})
+                        ${GLFW_LIBRARIES}
+                        ${GLAD_LIBRARIES})
