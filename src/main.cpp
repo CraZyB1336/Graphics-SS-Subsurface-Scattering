@@ -2,17 +2,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-// Window Const Options
-const int           windowWidth     = 1920;
-const int           windowHeight    = 1080;
-const std::string   windowTitle     = "SSSS";
-const GLint         windowResizable = GL_TRUE;
-const int           windowSamples   = 4;
-
-static void glfwErrorCallback(int error, const char* description)
-{
-    fprintf(stderr, "GLFW returned an error:\n\t%s (%i)\n", description, error);
-}
+#include "util/specs.hpp"
+#include "util/callbacks.hpp"
+#include "program.hpp"
 
 
 int main(int, char**){
@@ -26,6 +18,8 @@ int main(int, char**){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    glfwSetErrorCallback(glfwErrorCallback);
 
     glfwWindowHint(GLFW_RESIZABLE, windowResizable);
     glfwWindowHint(GLFW_SAMPLES, windowSamples); // In terms of MSAA
@@ -50,16 +44,8 @@ int main(int, char**){
     printf("OpenGL:\t %s\n", glGetString(GL_VERSION));
     printf("GLSL:\t %s\n\n\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-    glViewport(0, 0, windowWidth, windowHeight);
-
-    while(!glfwWindowShouldClose(window))
-    {
-        // Swaps the color buffer
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
+    // Run the OpenGL program
+    runProgram(window);
 
     return 0;
 }
