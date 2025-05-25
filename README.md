@@ -21,3 +21,7 @@ cmake --build ./
 ```sh
 ./start.sh # Builds and starts the SSSS program.
 ```
+```sh
+./cleanstart.sh # Does all of the above.
+```
+Add the **-l** or **--log** flag for CMake log outputs.

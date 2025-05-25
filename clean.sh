@@ -59,18 +59,19 @@ mkdir build || {
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}Build directory successfully created${RESET}"
 cd build
 
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Initializing CMake Configurations...\n"
+echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Initializing CMake Configurations..."
+echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ..."
 eval "cmake .. $( [[ $LOG == true ]] && echo "" || echo ">/dev/null")" || {
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Initializing CMake Configurations failed"
     exit 1
 }
 
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}CMake build directory cleaned and configured${RESET}"
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Either run the build bash file \"start.sh\" or execute:
+
+if [ $CLEANSTART == false ]; then
+    echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Either run the build bash file \"start.sh\" or execute:
     ${BOLD}${CYAN}cd build${RESET}
     ${BOLD}${CYAN}cmake --build ./${RESET}
     ${BOLD}${CYAN}./SSSS\n${RESET}"
-
-if [ $CLEANSTART == false ]; then
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
 fi

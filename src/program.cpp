@@ -41,6 +41,8 @@ void mainLoop()
 
         // Rendering goes here
         // ...
+        glClearColor(0.77f, 0.32f, 0.86f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         // Swaps the color buffers (to not flicker)
         glfwSwapBuffers(currentWindow);
