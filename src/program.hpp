@@ -5,7 +5,5 @@
 #include <GLFW/glfw3.h>
 
 void runProgram(GLFWwindow* window);
-void initialize();
-void mainLoop();
 
 #endif

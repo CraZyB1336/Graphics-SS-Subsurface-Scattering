@@ -14,17 +14,8 @@ void runProgram(GLFWwindow* window)
         return;
     }
 
-    initialize();
-    mainLoop();
+    /* Initialize */
 
-    glfwTerminate();
-}
-
-/**
- * @breif Initializes the OpenGL program. Setting handlers where necessary.
- */
-void initialize()
-{
     // Activate the Z-buffer
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LESS);
@@ -39,13 +30,9 @@ void initialize()
 
     glViewport(0, 0, windowWidth, windowHeight);
     glfwSetFramebufferSizeCallback(currentWindow, viewportResizeCallback);
-}
 
-/**
- * @brief Handles the main rendering loop
- */
-void mainLoop()
-{
+
+    /* Main Loop */
     while(!glfwWindowShouldClose(currentWindow))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -63,5 +50,7 @@ void mainLoop()
         glfwSwapBuffers(currentWindow);
         glfwPollEvents();
     }
+
+    glfwTerminate();
 }
 
