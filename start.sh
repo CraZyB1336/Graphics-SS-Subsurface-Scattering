@@ -7,6 +7,26 @@ RESET='\e[0m\033[0m'
 ITALIC='\e[3m'
 BOLD='\033[1m'
 
+LOG=false
+CLEANSTART=false
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -l|--log)
+            LOG=true
+            shift
+            ;;
+        -cleanstart)
+            CLEANSTART=true
+            shift
+            ;;
+        *)
+            echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Invalid option: $OPTARG" 1>&2
+            exit 1;
+            ;;
+    esac
+done
+
 set -e
 
 echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t Starting Screen Space Subsurface Scattering Program (SSSS)... ${ITALIC}vrr.. vrr.. cling clang${RESET}"
@@ -16,7 +36,7 @@ if test -d "build"; then
     cd build
 
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t Building Program..."
-    cmake --build ./ || {
+    eval "cmake --build ./ $( [[ $LOG == true ]] && echo "" || echo ">/dev/null")" || {
         echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t ${BOLD}${RED}An error occured during building. Aborting${RESET}"
         exit 1
     }
@@ -32,3 +52,6 @@ else
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t ${BOLD}${RED}No build directory exists. Aborting${RESET}"
 fi
 
+if [ $CLEANSTART == false ]; then
+    echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
+fi

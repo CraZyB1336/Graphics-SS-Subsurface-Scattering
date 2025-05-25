@@ -7,6 +7,26 @@ RESET='\e[0m\033[0m'
 ITALIC='\e[3m'
 BOLD='\033[1m'
 
+LOG=false
+CLEANSTART=false
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -l|--log)
+            LOG=true
+            shift
+            ;;
+        -cleanstart)
+            CLEANSTART=true
+            shift
+            ;;
+        *)
+            echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Invalid option: $OPTARG" 1>&2
+            exit 1;
+            ;;
+    esac
+done
+
 # Exit on any error
 set -e
 
@@ -39,8 +59,8 @@ mkdir build || {
 echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${GREEN}Build directory successfully created${RESET}"
 cd build
 
-echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Initializing CMake Configurations"
-cmake .. || {
+echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Initializing CMake Configurations...\n"
+eval "cmake .. $( [[ $LOG == true ]] && echo "" || echo ">/dev/null")" || {
     echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t ${BOLD}${RED}Initializing CMake Configurations failed"
     exit 1
 }
@@ -51,3 +71,6 @@ echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t Either run the build bash file \"sta
     ${BOLD}${CYAN}cmake --build ./${RESET}
     ${BOLD}${CYAN}./SSSS\n${RESET}"
 
+if [ $CLEANSTART == false ]; then
+    echo -e "${MAGENTA}${BOLD}[Clean]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
+fi
