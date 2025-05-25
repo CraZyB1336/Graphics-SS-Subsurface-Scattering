@@ -8,11 +8,16 @@ option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TEST OFF)
 add_subdirectory(external/glfw)
 
+# ASSIMP
+option(ASSIMP_INSTALL OFF)
+add_subdirectory(external/assimp)
+
 # Add directiores
 include_directories(src/
                     external/glad/include
                     external/glfw/include
-                    external/glm/)
+                    external/glm/
+                    external/assimp/include)
 
 # Add files
 file (GLOB          VENDORS_SOURCES     external/glad/src/glad.c)

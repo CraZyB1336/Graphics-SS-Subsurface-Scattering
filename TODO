@@ -1,8 +1,8 @@
-[x] Create SceneNode Structure
-    - Use SceneNodes to place in triangles.
-[x] Create shader handler / setup file
-[v] Create Buffer generation for VAO's
-    - Both index buffer and normal buffer.
-[] Create Transformation handling
-[] Create perspective projection from camera.
-[] Load in obj files.
+1. [x] Create SceneNode Structure
+        - Use SceneNodes to place in triangles.
+2. [x] Create shader handler / setup file
+3. [x] Create Buffer generation for VAO's
+        - Both index buffer and normal buffer.
+4. [] Load in obj files.
+5. [] Create Transformation handling
+6. [] Create perspective projection from camera.

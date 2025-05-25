@@ -25,3 +25,6 @@ cmake --build ./
 ./cleanstart.sh # Does all of the above.
 ```
 Add the **-l** or **--log** flag for CMake log outputs.
+
+TODO readme:
+- Write about ASSIMP and other submodules used.
