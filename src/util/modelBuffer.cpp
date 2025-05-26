@@ -24,25 +24,30 @@ unsigned int generateAttribute(int id, int elementsPerEntry, std::vector<T> data
 
 /**
  * @brief Create a vertex array object.
- * @param Mesh Mesh struct defining the vertex data.
+ * @param vertices All the positional data of the vertices.
+ * @param normals All the normal data for the vertices.
+ * @param texCoords All the textureCoordinate data for the vertices.
  * @returns The vertex array object ID. 
  */
-unsigned int generateBuffer(Mesh &mesh)
+unsigned int generateBuffer(const std::vector<glm::vec3>& vertices, 
+                            const std::vector<glm::vec3>& normals, 
+                            const std::vector<glm::vec2>& texCoords, 
+                            const std::vector<unsigned int>& indices)
 {
     unsigned vaoID;
     glGenBuffers(1, &vaoID);
     glBindVertexArray(vaoID);
 
     // Create the vertex position, normal, and uv attributes.
-                                    generateAttribute(0, 3, mesh.vertices, false); // Location = 0 in shader.
-    if (mesh.normals.size() > 0)  { generateAttribute(1, 3, mesh.normals, true); } // Location = 1 in shader.
-    if (mesh.uvs.size() > 0)      { generateAttribute(2, 3, mesh.uvs, false);    } // Location = 2 in shader.
+                                generateAttribute(0, 3, vertices, false); // Location = 0 in shader.
+    if (normals.size() > 0)   { generateAttribute(1, 3, normals, true); } // Location = 1 in shader.
+    if (texCoords.size() > 0) { generateAttribute(2, 3, texCoords, false);} // Location = 2 in shader.
 
     // Create the indexBufferObject (IBO) to store face data.
     unsigned int iboID;
     glGenBuffers(1, &iboID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indices.size() * sizeof(unsigned int), mesh.indices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
     return vaoID;
 }

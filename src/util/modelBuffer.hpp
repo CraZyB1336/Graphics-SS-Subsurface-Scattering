@@ -1,5 +1,9 @@
 #pragma once
 
-#include "../structs/mesh.hpp"
+#include <vector>
+#include <glm/glm.hpp>
 
-unsigned int generateBuffer(Mesh &mesh);
+unsigned int generateBuffer(const std::vector<glm::vec3>& vertices, 
+                            const std::vector<glm::vec3>& normals, 
+                            const std::vector<glm::vec2>& texCoords, 
+                            const std::vector<unsigned int>& indices);
