@@ -119,6 +119,6 @@ else
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t ${BOLD}${RED}No build directory exists. Aborting${RESET}"
 fi
 
-if [ $CLEANSTART == false && $LOG == false ]; then
+if [ $CLEANSTART == false ] && [ $LOG == false ]; then
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
 fi
