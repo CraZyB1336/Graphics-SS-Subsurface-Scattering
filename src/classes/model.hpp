@@ -12,6 +12,7 @@
 
 #include "shader.hpp"
 #include "mesh.hpp"
+#include "../util/textureHandler.hpp"
 
 namespace Model
 {
@@ -38,6 +39,7 @@ namespace Model
         private:
             std::vector<Mesh::Mesh> meshes;
             std::string directory;
+            std::vector<Mesh::Texture> textures_loaded;
 
             void loadModel(std::string path)
             {
@@ -115,11 +117,11 @@ namespace Model
                 if (mesh->mMaterialIndex >= 0)
                 {
                     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-                    Mesh::Texture albedo;
-                    Mesh::Texture diffuse;
-                    Mesh::Texture specular;
-                    Mesh::Texture normal;
-                    Mesh::Texture rough;
+                    Mesh::Texture albedo = loadMaterialTexture(material, aiTextureType_BASE_COLOR, "textureAlbedo");
+                    Mesh::Texture diffuse = loadMaterialTexture(material, aiTextureType_DIFFUSE, "textureDiffuse");
+                    Mesh::Texture specular = loadMaterialTexture(material, aiTextureType_SPECULAR, "textureSpecular");
+                    Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_NORMALS, "textureNormal");
+                    Mesh::Texture rough = loadMaterialTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, "textureRough");
                 }
             }
             
@@ -129,11 +131,23 @@ namespace Model
                 {
                     throw std::invalid_argument("Texture type has multiple textures. Please only use one for this program.");
                 }
-                
-                Mesh::Texture texture;
 
                 aiString str;
                 mat->GetTexture(type, 0, &str);
+
+                for (unsigned int i = 0; i < textures_loaded.size(); i++)
+                {
+                    if (std::strcmp(textures_loaded[i].path.data(), str.C_Str()) == 0)
+                    {
+                        return textures_loaded[i];
+                    }
+                }
+                Mesh::Texture texture;
+                texture.id = generateTextureFromFile(str.C_Str());
+                texture.type = typeName;
+                texture.path = str.C_Str();
+                textures_loaded.push_back(texture);
+                return texture;
             }
     };
 }

@@ -21,10 +21,12 @@ include_directories(src/
                     external/glad/include
                     external/glfw/include
                     external/glm/
-                    external/assimp/include)
+                    external/assimp/include
+                    external/)
 
 # Add files
-file (GLOB          VENDORS_SOURCES     external/glad/src/glad.c)
+file (GLOB          VENDORS_SOURCES     external/glad/src/glad.c
+                                        external/stb_image/stb_image_impl.cpp)
 file (GLOB_RECURSE  PROJECT_HEADERS     src/*.hpp
                                         src/*.h)
 file (GLOB_RECURSE  PROJECT_SOURCES     src/*.cpp
