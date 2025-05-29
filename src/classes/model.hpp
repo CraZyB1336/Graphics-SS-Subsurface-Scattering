@@ -151,22 +151,6 @@ namespace Model
 
                 aiString str;
                 mat->GetTexture(type, 0, &str);
-                if (type == aiTextureType_HEIGHT)
-                {
-                    printf("Texture Loaded for normals: %s\n", str.C_Str());
-                }
-                else if (type == aiTextureType_DIFFUSE)
-                {
-                    printf("Texture Loaded for diffuse: %s\n", str.C_Str());
-                }
-                else if (type == aiTextureType_SPECULAR)
-                {
-                    printf("Texture Loaded for specular: %s\n", str.C_Str());
-                }
-                if (type == aiTextureType_DIFFUSE_ROUGHNESS)
-                {
-                    printf("Texture Loaded for diffuse roughness: %s\n", str.C_Str());
-                }
 
 
                 for (unsigned int i = 0; i < textures_loaded.size(); i++)

@@ -1,8 +1,4 @@
-1. [x] Create SceneNode Structure
-        - Use SceneNodes to place in triangles.
-2. [x] Create shader handler / setup file
-3. [x] Create Buffer generation for VAO's
-        - Both index buffer and normal buffer.
-4. [] Load in obj files.
-5. [] Create Transformation handling
-6. [] Create perspective projection from camera.
+1. [] create the TBN matrix for proper lighting calculations
+2. [] Global lighting model (maybe)
+3. [] implement SSAO
+4. [] Research about how to add subsurface scattering
