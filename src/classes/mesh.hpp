@@ -6,7 +6,6 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
-#include "sceneNode.hpp"
 #include "shader.hpp"
 #include "../util/modelBuffer.hpp"
 
@@ -15,6 +14,10 @@ namespace Mesh
     int totalTextures = 5;
     std::string textureStrings[5]       = {"textureAlbedo", "textureDiffuse", "textureSpecular", "textureNormal", "textureRough"};
     std::string hasTextureStrings[5]    = {"hasAlbedoTex", "hasDiffuseTex", "hasSpecularTex", "hasNormalTex", "hasRoughTex"};
+
+    enum Type {
+        GEOMETRY, SKYBOX
+    };
 
     struct Texture
     {
@@ -26,28 +29,32 @@ namespace Mesh
     class Mesh
     {
         public:
-            std::vector<glm::vec3>      position;
-            std::vector<glm::vec3>      normals;
-            std::vector<glm::vec2>      texCoords;
-            std::vector<unsigned int>   indices;
+            // Mesh logic data
+            glm::vec3 position  = {0.0, 0.0, 0.0};
+            glm::vec3 rotation  = {0.0, 0.0, 0.0};
+            glm::vec3 scale     = {1.0, 1.0, 1.0};
+            glm::vec3 refPoint  = {0.0, 0.0, 0.0};
+
+            glm::mat4 transMat;
+
+            // Informational data
+            int vaoID           = -1;
+            int vaoIndexCount   = 0;
+
+            Type type = GEOMETRY;
+
+            std::vector<Mesh> children;
             std::vector<Texture> textures;
 
-            // SceneNode type
-            SceneNode::Node* node;
+            Mesh() {return;}
 
             Mesh(std::vector<glm::vec3> position, std::vector<glm::vec3> normals, std::vector<glm::vec2> texCoords, 
                  std::vector<unsigned int> indices, std::vector<Texture> textures)
             {
-                this->position  = position;
-                this->normals   = normals;
-                this->texCoords = texCoords;
-                this->indices   = indices;
                 this->textures  = textures;
 
-                node = new SceneNode::Node;
-
-                node->vaoID = generateBuffer(this->position, this->normals, this->texCoords, this->indices);
-                node->vaoIndexCount = this->indices.size();
+                vaoID = generateBuffer(position, normals, texCoords, indices);
+                vaoIndexCount = indices.size();
             }
 
             /**
@@ -77,8 +84,8 @@ namespace Mesh
                     }
                 }
 
-                glBindVertexArray(node->vaoID);
-                glDrawElements(GL_TRIANGLES, node->vaoIndexCount, GL_UNSIGNED_INT, 0);
+                glBindVertexArray(vaoID);
+                glDrawElements(GL_TRIANGLES, vaoIndexCount, GL_UNSIGNED_INT, 0);
                 // Unbind
                 glBindVertexArray(0);
             }

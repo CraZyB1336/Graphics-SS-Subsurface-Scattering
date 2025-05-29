@@ -3,13 +3,12 @@
 #include "program.hpp"
 #include "inputHandler.hpp"
 
-GLFWwindow* currentWindow;
+#include "render/renderInit.hpp"
+#include "render/update.hpp"
 
 void runProgram(GLFWwindow* window)
 {
-    currentWindow = window;
-
-    if (currentWindow == NULL) {
+    if (window == NULL) {
         fprintf(stderr, "OpenGL window is NULL. Aborting");
         return;
     }
@@ -29,25 +28,33 @@ void runProgram(GLFWwindow* window)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     glViewport(0, 0, windowWidth, windowHeight);
-    glfwSetFramebufferSizeCallback(currentWindow, viewportResizeCallback);
+    glfwSetFramebufferSizeCallback(window, viewportResizeCallback);
 
+    // Init models and such
+    initScene(window);
+    
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
 
     /* Main Loop */
-    while(!glfwWindowShouldClose(currentWindow))
+    while(!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Input part of the loop
-        processInput(currentWindow);
+        processInput(window);
 
-        // Rendering goes here
-        // ...
-        
-        // UpdatingFrame (transforms and such)
+        // Calculate delta time
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // Update logic
+        updateFrame(deltaTime);
         // renderFrame (rendering shaders, etc)
 
 
         // Swaps the color buffers (to not flicker)
-        glfwSwapBuffers(currentWindow);
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 

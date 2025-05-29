@@ -4,8 +4,6 @@
 
 #include <GLFW/glfw3.h>
 
-// Add external variables here
-
 void initScene(GLFWwindow* window);
 
 #endif

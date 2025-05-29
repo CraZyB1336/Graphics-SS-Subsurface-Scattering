@@ -19,23 +19,12 @@ namespace Model
     class Model
     {
         public:
+            Mesh::Mesh root;
+
             Model(char *path)
             {
                 loadModel(path);
             }
-
-            /**
-             * @brief Draw the Model.
-             * @param shader The shader program to draw to.
-             */
-            void Draw(Shader::Shader& shader)
-            {
-                for (unsigned int i = 0; i < meshes.size(); i++)
-                {
-                    meshes[i].Draw(shader);
-                }
-            }
-
         private:
             std::vector<Mesh::Mesh> meshes;
             std::string directory;
@@ -123,6 +112,11 @@ namespace Model
                     Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_NORMALS, "textureNormal");
                     Mesh::Texture rough = loadMaterialTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, "textureRough");
                 }
+
+                Mesh::Mesh processedMesh = Mesh::Mesh(positions, normals, texCoords, indices, textures);
+                root.children.push_back(processedMesh);
+
+                return processedMesh;
             }
             
             Mesh::Texture loadMaterialTexture(aiMaterial *mat, aiTextureType type, std::string typeName)
