@@ -35,7 +35,7 @@ unsigned int generateBuffer(const std::vector<glm::vec3>& vertices,
                             const std::vector<unsigned int>& indices)
 {
     unsigned vaoID;
-    glGenBuffers(1, &vaoID);
+    glGenVertexArrays(1, &vaoID);
     glBindVertexArray(vaoID);
 
     // Create the vertex position, normal, and uv attributes.

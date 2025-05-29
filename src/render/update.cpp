@@ -15,7 +15,7 @@ void updateNodeTransforms(Mesh::Mesh* node, glm::mat4 currentTransformation);
 void updateFrame(float deltaTime)
 {
     glm::mat4 perspectiveProjection = glm::perspective(glm::radians(FOV), float(windowWidth) / float(windowHeight), nearPlane, farPlane);
-    glm::mat4 cameraTransform = glm::lookAt(cameraPosition, cameraPosition * glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+    glm::mat4 cameraTransform = glm::lookAt(cameraPosition, {0.0, 0.0, 0.0}, glm::vec3(0, 1, 0));
 
     VP = perspectiveProjection * cameraTransform;
     // Pass in the identity matrix
@@ -30,7 +30,7 @@ void updateNodeTransforms(Mesh::Mesh* node, glm::mat4 currentTransformation)
 
     // The redeclarations are left-multiplying
     glm::mat4 modelMat = glm::mat4(1.0);
-    modelMat = glm::scale(modelMat, node->rotation);
+    modelMat = glm::scale(modelMat, node->scale);
     // Move to the reference point for rotation.
     modelMat = glm::translate(modelMat, node->refPoint);
     modelMat = glm::rotate(modelMat, glm::radians(node->rotation.z), {0.0, 0.0, 1.0});

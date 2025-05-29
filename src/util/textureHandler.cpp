@@ -31,5 +31,5 @@ unsigned int generateTextureFromFile(std::string filePath)
 
     // Release the image    \0/ - "i am free"
     stbi_image_free(data);
-    return 0;
+    return textureID;
 }

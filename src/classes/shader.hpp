@@ -130,7 +130,7 @@ namespace Shader
 
                 if      (ext == "comp") return glCreateShader(GL_COMPUTE_SHADER);
                 else if (ext == "frag") return glCreateShader(GL_FRAGMENT_SHADER);
-                else if (ext == "vert") return glCreateShader(GL_FRAGMENT_SHADER);
+                else if (ext == "vert") return glCreateShader(GL_VERTEX_SHADER);
                 else                    return false;
             }
     };

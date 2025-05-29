@@ -1,10 +1,10 @@
 #include "util/specs.hpp"
 #include "util/callbacks.hpp"
 #include "program.hpp"
-#include "inputHandler.hpp"
 
-#include "render/renderInit.hpp"
+#include "render/initialize.hpp"
 #include "render/update.hpp"
+#include "render/render.hpp"
 
 void runProgram(GLFWwindow* window)
 {
@@ -36,12 +36,12 @@ void runProgram(GLFWwindow* window)
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
+    glDisable(GL_CULL_FACE);
+
     /* Main Loop */
     while(!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // Input part of the loop
-        processInput(window);
 
         // Calculate delta time
         float currentFrame = glfwGetTime();
@@ -50,8 +50,7 @@ void runProgram(GLFWwindow* window)
 
         // Update logic
         updateFrame(deltaTime);
-        // renderFrame (rendering shaders, etc)
-
+        renderFrame();
 
         // Swaps the color buffers (to not flicker)
         glfwSwapBuffers(window);

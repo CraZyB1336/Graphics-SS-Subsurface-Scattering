@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 
 #include "../classes/mesh.hpp"
+#include "../classes/model.hpp"
+#include "../classes/shader.hpp"
 
 // Camera
 extern glm::vec3 cameraPosition;
@@ -18,9 +20,10 @@ extern float farPlane;
 extern glm::mat4 VP;
 
 // Shaders
+extern Shader::Shader* mainShader;
 
 // Models
-    // 3D
-Mesh::Mesh* rootNode;
+extern Mesh::Mesh* rootNode;
+// extern Model::Model* plantModel;
 
 #endif

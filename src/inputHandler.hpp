@@ -4,6 +4,6 @@
 
 #include <GLFW/glfw3.h>
 
-void processInput(GLFWwindow* window);
+void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 #endif

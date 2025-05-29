@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
 #include "shader.hpp"
@@ -12,12 +13,12 @@
 namespace Mesh
 {
     enum Type {
-        GEOMETRY, SKYBOX
+        NO_GEOMETRY, GEOMETRY, SKYBOX
     };
 
     struct Texture
     {
-        unsigned int id;
+        unsigned int id = 0;
         std::string type;
         std::string path;
     };
@@ -59,16 +60,15 @@ namespace Mesh
              */
             void Draw(Shader::Shader& shader)
             {
+                if (this->type == NO_GEOMETRY) return;
                 // Textures look like this:
                 /*
-                 *  uniform sampler2D textureAlbedo; // Used for the actual texture
-                 *  uniform sampler2D textureDiffuse; // If it has some diffuse precalcuated or weight
+                 *  uniform sampler2D textureDiffuse; // Actual base color
                  *  uniform sampler2D textureSpecular; // If it has some specular precalculated or weight
                  *  uniform sampler2D textureNormal; // Normal lighting
                  *  uniform sampler2D textureRough; // Controls specular blurring.
                  */
 
-                setTextureBool(shader, "textureAlbedoBool", false);
                 setTextureBool(shader, "textureDiffuseBool", false);
                 setTextureBool(shader, "textureSpecularBool", false);
                 setTextureBool(shader, "textureNormalBool", false);
@@ -83,6 +83,13 @@ namespace Mesh
                     glUniform1i(shader.getUniformFromName(textures[i].type), i);
                     glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
+
+                // Pass in model matrix
+                glUniformMatrix4fv(shader.getUniformFromName("M"), 1, GL_FALSE, glm::value_ptr(this->transMat));
+
+                // Construct Normal Matrix
+                glm::mat3 NM = glm::transpose(glm::inverse(glm::mat3(this->transMat)));
+                glUniformMatrix3fv(shader.getUniformFromName("NM"), 1, GL_FALSE, glm::value_ptr(NM));
 
                 glBindVertexArray(vaoID);
                 glDrawElements(GL_TRIANGLES, vaoIndexCount, GL_UNSIGNED_INT, 0);

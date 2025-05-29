@@ -39,5 +39,6 @@ add_executable(${PROJECT_NAME}  ${PROJECT_SOURCES}
 
 target_link_libraries(${PROJECT_NAME}
                         glfw
+                        assimp
                         ${GLFW_LIBRARIES}
                         ${GLAD_LIBRARIES})

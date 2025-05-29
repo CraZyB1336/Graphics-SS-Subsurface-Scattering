@@ -19,15 +19,15 @@ namespace Model
     class Model
     {
         public:
-            Mesh::Mesh root;
+            Mesh::Mesh* root;
 
             Model(char *path)
             {
                 loadModel(path);
+                printf("Successfully loaded: %s", path);
             }
         private:
-            std::vector<Mesh::Mesh> meshes;
-            std::string directory;
+            std::vector<Mesh::Mesh*> meshes;
             std::vector<Mesh::Texture> textures_loaded;
 
             void loadModel(std::string path)
@@ -41,7 +41,10 @@ namespace Model
                     return;
                 }
 
-                directory = path.substr(0, path.find_last_of('/'));
+                root = new Mesh::Mesh();
+                root->type = Mesh::NO_GEOMETRY;
+
+                processNode(scene->mRootNode, scene);
             }
 
             void processNode(aiNode *node, const aiScene *scene)
@@ -60,7 +63,7 @@ namespace Model
                 }
             }
 
-            Mesh::Mesh processMesh(aiMesh *mesh, const aiScene *scene)
+            Mesh::Mesh* processMesh(aiMesh *mesh, const aiScene *scene)
             {
                 std::vector<glm::vec3> positions;
                 std::vector<glm::vec3> normals;
@@ -106,15 +109,19 @@ namespace Model
                 if (mesh->mMaterialIndex >= 0)
                 {
                     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-                    Mesh::Texture albedo = loadMaterialTexture(material, aiTextureType_BASE_COLOR, "textureAlbedo");
                     Mesh::Texture diffuse = loadMaterialTexture(material, aiTextureType_DIFFUSE, "textureDiffuse");
                     Mesh::Texture specular = loadMaterialTexture(material, aiTextureType_SPECULAR, "textureSpecular");
                     Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_NORMALS, "textureNormal");
                     Mesh::Texture rough = loadMaterialTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, "textureRough");
+
+                    textures.push_back(diffuse);
+                    textures.push_back(specular);
+                    textures.push_back(normal);
+                    textures.push_back(rough);
                 }
 
-                Mesh::Mesh processedMesh = Mesh::Mesh(positions, normals, texCoords, indices, textures);
-                root.children.push_back(processedMesh);
+                Mesh::Mesh* processedMesh = new Mesh::Mesh(positions, normals, texCoords, indices, textures);
+                root->children.push_back(processedMesh);
 
                 return processedMesh;
             }
@@ -124,6 +131,14 @@ namespace Model
                 if (mat->GetTextureCount(type) > 1)
                 {
                     throw std::invalid_argument("Texture type has multiple textures. Please only use one for this program.");
+                }
+
+                if (mat->GetTextureCount(type) == 0)
+                {
+                    Mesh::Texture texture;
+                    texture.id = 0;
+                    texture.type = "NONE";
+                    return texture;
                 }
 
                 aiString str;

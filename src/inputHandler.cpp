@@ -5,7 +5,7 @@
 /**
  * @brief Handles user keyboard input.
  */
-void processInput(GLFWwindow* window)
+void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Escape key closes OpenGL program. (Debug)
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
