@@ -28,7 +28,7 @@ void initModels()
 {
     rootNode = new Mesh::Mesh();
     // Initialize the plant model and add it to root.
-    plantModel = new Model::Model("../resources/models/plant/indoor_plant_02.obj");
+    plantModel = new Model::Model("../resources/models/plant/plant_fixed.obj");
     rootNode->children.push_back(plantModel->root);
 }
 

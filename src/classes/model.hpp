@@ -116,7 +116,7 @@ namespace Model
                     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
                     Mesh::Texture diffuse = loadMaterialTexture(material, aiTextureType_DIFFUSE, "textureDiffuse");
                     Mesh::Texture specular = loadMaterialTexture(material, aiTextureType_SPECULAR, "textureSpecular");
-                    Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_NORMALS, "textureNormal");
+                    Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_HEIGHT, "textureNormal");
                     Mesh::Texture rough = loadMaterialTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, "textureRough");
 
                     if (diffuse.id != 0) textures.push_back(diffuse);
@@ -143,12 +143,15 @@ namespace Model
                     Mesh::Texture texture;
                     texture.id = 0;
                     texture.type = "NONE";
+
+                    printf("Found zero textures for: %s\n", typeName.c_str());
+
                     return texture;
                 }
 
                 aiString str;
                 mat->GetTexture(type, 0, &str);
-                if (type == aiTextureType_NORMALS)
+                if (type == aiTextureType_HEIGHT)
                 {
                     printf("Texture Loaded for normals: %s\n", str.C_Str());
                 }
