@@ -25,7 +25,7 @@ void runProgram(GLFWwindow* window)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 
     glViewport(0, 0, windowWidth, windowHeight);
     glfwSetFramebufferSizeCallback(window, viewportResizeCallback);
@@ -35,8 +35,6 @@ void runProgram(GLFWwindow* window)
     
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
-
-    glDisable(GL_CULL_FACE);
 
     /* Main Loop */
     while(!glfwWindowShouldClose(window))

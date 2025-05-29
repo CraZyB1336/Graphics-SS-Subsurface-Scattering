@@ -24,6 +24,7 @@ extern Shader::Shader* mainShader;
 
 // Models
 extern Mesh::Mesh* rootNode;
-// extern Model::Model* plantModel;
+extern Model::Model* plantModel;
+// extern Mesh::Mesh* cube;
 
 #endif

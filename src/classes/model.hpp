@@ -24,10 +24,11 @@ namespace Model
             Model(char *path)
             {
                 loadModel(path);
-                printf("Successfully loaded: %s", path);
+                printf("Successfully loaded: %s\n", path);
             }
         private:
             std::vector<Mesh::Mesh*> meshes;
+            std::string directory;
             std::vector<Mesh::Texture> textures_loaded;
 
             void loadModel(std::string path)
@@ -43,6 +44,8 @@ namespace Model
 
                 root = new Mesh::Mesh();
                 root->type = Mesh::NO_GEOMETRY;
+
+                directory = path.substr(0, path.find_last_of('/'));
 
                 processNode(scene->mRootNode, scene);
             }
@@ -151,8 +154,9 @@ namespace Model
                         return textures_loaded[i];
                     }
                 }
+                
                 Mesh::Texture texture;
-                texture.id = generateTextureFromFile(str.C_Str());
+                texture.id = generateTextureFromFile(directory + '/' + str.C_Str());
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures_loaded.push_back(texture);

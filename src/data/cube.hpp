@@ -30,17 +30,17 @@ namespace CubeData
     // Cube indices (12 triangles, 2 per face)
     const std::vector<unsigned int> indices = {
         // Back face (Z-)
-        0, 1, 2,   2, 3, 0,
+        2, 1, 0,   0, 3, 2,
         // Front face (Z+)
         4, 5, 6,   6, 7, 4,
         // Left face (X-)
         0, 4, 7,   7, 3, 0,
         // Right face (X+)
-        1, 5, 6,   6, 2, 1,
+        6, 5, 1,   1, 2, 6,
         // Bottom face (Y-)
         0, 1, 5,   5, 4, 0,
         // Top face (Y+)
-        3, 2, 6,   6, 7, 3
+        6, 2, 3,   3, 7, 6
     };
 
     // Cube texture coordinates (8 coordinates, simple mapping)

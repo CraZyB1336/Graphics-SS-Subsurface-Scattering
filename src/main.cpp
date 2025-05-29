@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -8,6 +9,7 @@
 
 
 int main(int, char**){
+    printf("Current Working Directory: %s\n", std::filesystem::current_path().c_str());
 
     if (!glfwInit())
     {

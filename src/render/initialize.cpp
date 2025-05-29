@@ -28,12 +28,8 @@ void initModels()
 {
     rootNode = new Mesh::Mesh();
     // Initialize the plant model and add it to root.
-    // plantModel = new Model::Model("../resources/models/plant/indoor_plant_02.obj");
-
-    std::vector<Mesh::Texture> textures;
-
-    Mesh::Mesh* cube = new Mesh::Mesh(CubeData::vertices, CubeData::normals, CubeData::texCoords, CubeData::indices, textures);
-    rootNode->children.push_back(cube);
+    plantModel = new Model::Model("../resources/models/plant/indoor_plant_02.obj");
+    rootNode->children.push_back(plantModel->root);
 }
 
 /**
