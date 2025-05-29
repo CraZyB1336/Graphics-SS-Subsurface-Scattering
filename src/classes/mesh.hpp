@@ -3,6 +3,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
@@ -12,6 +13,13 @@
 
 namespace Mesh
 {
+    static std::map<std::string, int> textureUnitMap = {
+        {"textureDiffuse", 0},
+        {"textureSpecular", 1},
+        {"textureNormal", 2},
+        {"textureRough", 3}
+    };
+
     enum Type {
         NO_GEOMETRY, GEOMETRY, SKYBOX
     };
@@ -77,11 +85,16 @@ namespace Mesh
                 // Iterate over textures
                 for (unsigned int i = 0; i < textures.size(); i++)
                 {
-                    setTextureBool(shader, textures[i].type + "Bool", true);
+                    if (textures[i].id != 0 || textures[i].type != "NONE")
+                    {
+                        int unit = textureUnitMap.find(textures[i].type)->second;
 
-                    glActiveTexture(GL_TEXTURE0 + i);
-                    glUniform1i(shader.getUniformFromName(textures[i].type), i);
-                    glBindTexture(GL_TEXTURE_2D, textures[i].id);
+                        setTextureBool(shader, textures[i].type + "Bool", true);
+                        
+                        glActiveTexture(GL_TEXTURE0 + unit);
+                        glUniform1i(shader.getUniformFromName(textures[i].type), unit);
+                        glBindTexture(GL_TEXTURE_2D, textures[i].id);
+                    }
                 }
 
                 // Pass in model matrix

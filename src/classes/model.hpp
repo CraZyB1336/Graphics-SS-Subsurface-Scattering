@@ -53,10 +53,12 @@ namespace Model
             void processNode(aiNode *node, const aiScene *scene)
             {
                 // Process all the meshes for this node
+                printf("Mesh name: %s\n", node->mName.C_Str());
                 for (unsigned int i = 0; i < node->mNumMeshes; i++)
                 {
                     aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
                     meshes.push_back(processMesh(mesh, scene));
+                    printf("\n");
                 }
 
                 // Process all the children nodes for this node
@@ -117,10 +119,10 @@ namespace Model
                     Mesh::Texture normal = loadMaterialTexture(material, aiTextureType_NORMALS, "textureNormal");
                     Mesh::Texture rough = loadMaterialTexture(material, aiTextureType_DIFFUSE_ROUGHNESS, "textureRough");
 
-                    textures.push_back(diffuse);
-                    textures.push_back(specular);
-                    textures.push_back(normal);
-                    textures.push_back(rough);
+                    if (diffuse.id != 0) textures.push_back(diffuse);
+                    if (specular.id != 0) textures.push_back(specular);
+                    if (normal.id != 0) textures.push_back(normal);
+                    if (rough.id != 0) textures.push_back(rough);
                 }
 
                 Mesh::Mesh* processedMesh = new Mesh::Mesh(positions, normals, texCoords, indices, textures);
@@ -146,6 +148,23 @@ namespace Model
 
                 aiString str;
                 mat->GetTexture(type, 0, &str);
+                if (type == aiTextureType_NORMALS)
+                {
+                    printf("Texture Loaded for normals: %s\n", str.C_Str());
+                }
+                else if (type == aiTextureType_DIFFUSE)
+                {
+                    printf("Texture Loaded for diffuse: %s\n", str.C_Str());
+                }
+                else if (type == aiTextureType_SPECULAR)
+                {
+                    printf("Texture Loaded for specular: %s\n", str.C_Str());
+                }
+                if (type == aiTextureType_DIFFUSE_ROUGHNESS)
+                {
+                    printf("Texture Loaded for diffuse roughness: %s\n", str.C_Str());
+                }
+
 
                 for (unsigned int i = 0; i < textures_loaded.size(); i++)
                 {

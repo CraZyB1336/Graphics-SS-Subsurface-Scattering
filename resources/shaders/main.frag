@@ -18,7 +18,7 @@ out vec4 color;
 
 void main()
 {
-    vec4 textureColor = texture(textureDiffuse, texCoords);
+    vec4 textureColor = texture(textureNormal, texCoords);
 
     color = textureColor;
 }
