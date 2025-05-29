@@ -11,10 +11,6 @@
 
 namespace Mesh
 {
-    int totalTextures = 5;
-    std::string textureStrings[5]       = {"textureAlbedo", "textureDiffuse", "textureSpecular", "textureNormal", "textureRough"};
-    std::string hasTextureStrings[5]    = {"hasAlbedoTex", "hasDiffuseTex", "hasSpecularTex", "hasNormalTex", "hasRoughTex"};
-
     enum Type {
         GEOMETRY, SKYBOX
     };
@@ -43,7 +39,7 @@ namespace Mesh
 
             Type type = GEOMETRY;
 
-            std::vector<Mesh> children;
+            std::vector<Mesh*> children;
             std::vector<Texture> textures;
 
             Mesh() {return;}
@@ -71,17 +67,21 @@ namespace Mesh
                  *  uniform sampler2D textureNormal; // Normal lighting
                  *  uniform sampler2D textureRough; // Controls specular blurring.
                  */
+
+                setTextureBool(shader, "textureAlbedoBool", false);
+                setTextureBool(shader, "textureDiffuseBool", false);
+                setTextureBool(shader, "textureSpecularBool", false);
+                setTextureBool(shader, "textureNormalBool", false);
+                setTextureBool(shader, "textureRoughBool", false);
         
                 // Iterate over textures
-                for (unsigned int i = 0; i < totalTextures; i++)
+                for (unsigned int i = 0; i < textures.size(); i++)
                 {
+                    setTextureBool(shader, textures[i].type + "Bool", true);
+
                     glActiveTexture(GL_TEXTURE0 + i);
-                    if (textures[i].type == textureStrings[i]) {
-                        setTextureBool(shader, hasTextureStrings[i], true);
-                        glBindTexture(GL_TEXTURE_2D, textures[i].id);
-                    } else {
-                        setTextureBool(shader, hasTextureStrings[i], false);
-                    }
+                    glUniform1i(shader.getUniformFromName(textures[i].type), i);
+                    glBindTexture(GL_TEXTURE_2D, textures[i].id);
                 }
 
                 glBindVertexArray(vaoID);

@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-#include "../classes/sceneNode.hpp"
+#include "../classes/mesh.hpp"
 
 // Camera
 extern glm::vec3 cameraPosition;
@@ -21,6 +21,6 @@ extern glm::mat4 VP;
 
 // Models
     // 3D
-SceneNode::Node* rootNode;
+Mesh::Mesh* rootNode;
 
 #endif
