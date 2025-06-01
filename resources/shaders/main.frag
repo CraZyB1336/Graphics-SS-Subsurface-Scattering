@@ -20,7 +20,7 @@ out vec4 color;
 void main()
 {
     vec4 textureColor = texture(textureDiffuse, texCoords);
-    vec3 textureNormal = TBN * (texture(textureNormal, texCoords).xyz * 2.0 - 1.0);
+    vec3 textureNormal = textureNormalBool ? TBN * (texture(textureNormal, texCoords).xyz * 2.0 - 1.0) : norm;
 
     color = vec4(textureNormal, 1.0);
 }

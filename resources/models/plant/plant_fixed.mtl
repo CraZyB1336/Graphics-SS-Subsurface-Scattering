@@ -8,9 +8,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd indoor plant_2_COL.jpg
-map_Ks indoor plant_2_COL.jpg
-map_Bump indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Ks indoor_plant_2_COL.jpg
+map_Bump indoor_plant_2_NOR.jpg
 
 newmtl IDP_ground
 Ns 96.078453
@@ -20,8 +20,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-map_Kd indoor plant_2_COL.jpg
-map_Bump -bm 1.000000 indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Bump -bm 1.000000 indoor_plant_2_NOR.jpg
 
 newmtl IDP_leaves
 Ns 96.078453
@@ -30,20 +30,20 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd indoor plant_2_COL.jpg
-map_Ks indoor plant_2_COL.jpg
-map_Bump indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Ks indoor_plant_2_COL.jpg
+map_Bump indoor_plant_2_NOR.jpg
 
-newmtl IDP_leaves_indoor_plant_2_NOR.jpg
+newmtl IDP_leaves_indoor__plant_2_NOR.jpg
 Ns 96.078453
 Ka 1.000000 1.000000 1.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd indoor plant_2_COL.jpg
-map_Ks indoor plant_2_COL.jpg
-map_Bump indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Ks indoor_plant_2_COL.jpg
+map_Bump indoor_plant_2_NOR.jpg
 
 newmtl IDP_root.001
 Ns 96.078453
@@ -52,17 +52,17 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd indoor plant_2_COL.jpg
-map_Ks indoor plant_2_COL.jpg
-map_Bump indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Ks indoor_plant_2_COL.jpg
+map_Bump indoor_plant_2_NOR.jpg
 
-newmtl IDP_root_indoor_plant_2_NOR.jpg
+newmtl IDP_root_indoor__plant_2_NOR.jpg
 Ns 96.078453
 Ka 1.000000 1.000000 1.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd indoor plant_2_COL.jpg
-map_Ks indoor plant_2_COL.jpg
-map_Bump indoor plant_2_NOR.jpg
+map_Kd indoor_plant_2_COL.jpg
+map_Ks indoor_plant_2_COL.jpg
+map_Bump indoor_plant_2_NOR.jpg

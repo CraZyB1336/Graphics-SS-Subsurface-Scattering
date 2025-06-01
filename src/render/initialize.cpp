@@ -30,6 +30,12 @@ void initModels()
     // Initialize the plant model and add it to root.
     plantModel = new Model::Model("../resources/models/plant/plant_fixed.obj");
     rootNode->children.push_back(plantModel->root);
+
+    dragonModel = new Model::Model("../resources/models/dragon/dragon.obj");
+    rootNode->children.push_back(dragonModel->root);
+
+    sceneboxModel = new Model::Model("../resources/models/scenebox/scenebox.obj");
+    rootNode->children.push_back(sceneboxModel->root);
 }
 
 /**

@@ -5,6 +5,7 @@
 #include "render/initialize.hpp"
 #include "render/update.hpp"
 #include "render/render.hpp"
+#include "inputHandler.hpp"
 
 void runProgram(GLFWwindow* window)
 {
@@ -45,6 +46,9 @@ void runProgram(GLFWwindow* window)
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        // Handle looped input logic
+        processKeyInputLogic(window, deltaTime);
 
         // Update logic
         updateFrame(deltaTime);

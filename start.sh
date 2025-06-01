@@ -9,6 +9,7 @@ BOLD='\033[1m'
 
 LOG=false
 CLEANSTART=false
+NVIDIA=false
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -18,6 +19,10 @@ while [ $# -gt 0 ]; do
             ;;
         -cleanstart)
             CLEANSTART=true
+            shift
+            ;;
+        --nvidia)
+            NVIDIA=true
             shift
             ;;
         *)
@@ -111,7 +116,11 @@ if test -d "build"; then
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t ${BOLD}${GREEN}Building successfull"
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t Starting Program..."
 
-    ./SSSS || {
+    if [ $NVIDIA == true ]; then
+        __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia ./SSSS 
+    else 
+        ./SSSS
+    fi || {
         echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t ${BOLD}${RED}Unexpected error occured starting the program. 
         Check if CMakeLists has project name \"SSSS\"${RESET}"
     }
@@ -121,4 +130,8 @@ fi
 
 if [ $CLEANSTART == false ] && [ $LOG == false ]; then
     echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t To enable logging: ${BOLD}'-l'${RESET} or ${BOLD}'--log'${RESET}"
+fi
+
+if [ $NVIDIA == false ]; then
+    echo -e "${MAGENTA}${BOLD}[Start]${RESET}\t To use nvidia vendor: ${BOLD}'--nvidia'${RESET}"
 fi

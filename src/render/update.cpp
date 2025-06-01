@@ -15,7 +15,14 @@ void updateNodeTransforms(Mesh::Mesh* node, glm::mat4 currentTransformation);
 void updateFrame(float deltaTime)
 {
     glm::mat4 perspectiveProjection = glm::perspective(glm::radians(FOV), float(windowWidth) / float(windowHeight), nearPlane, farPlane);
-    glm::mat4 cameraTransform = glm::lookAt(cameraPosition, cameraPosition * glm::vec3(1.0, 1.0, -1.0), glm::vec3(0, 1, 0));
+
+    // Calculate first person camera direction vector
+    glm::vec3 lookingDirection;
+    lookingDirection.x = cos(glm::radians(cameraAngle.y)) * cos(glm::radians(cameraAngle.x));
+    lookingDirection.y = sin(glm::radians(cameraAngle.x));
+    lookingDirection.z = sin(glm::radians(cameraAngle.y)) * cos(glm::radians(cameraAngle.x));
+
+    glm::mat4 cameraTransform = glm::lookAt(cameraPosition, cameraPosition + lookingDirection, glm::vec3(0, 1, 0));
 
     VP = perspectiveProjection * cameraTransform;
     // Pass in the identity matrix

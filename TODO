@@ -1,4 +1,7 @@
-1. [] create the TBN matrix for proper lighting calculations
-2. [] Global lighting model (maybe)
+1. [x] create the TBN matrix for proper lighting calculations
+2. [] Global lighting model (maybe) (raytracing?) (radiance cascades!!)
+        - So first:
+        - Have to spawn "NODES" with lower angular and lower linear resolution
+            - Save this in 
 3. [] implement SSAO
 4. [] Research about how to add subsurface scattering

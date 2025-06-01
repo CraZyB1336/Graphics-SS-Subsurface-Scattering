@@ -52,13 +52,10 @@ namespace Model
 
             void processNode(aiNode *node, const aiScene *scene)
             {
-                // Process all the meshes for this node
-                printf("Mesh name: %s\n", node->mName.C_Str());
                 for (unsigned int i = 0; i < node->mNumMeshes; i++)
                 {
                     aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
                     meshes.push_back(processMesh(mesh, scene));
-                    printf("\n");
                 }
 
                 // Process all the children nodes for this node
@@ -143,8 +140,6 @@ namespace Model
                     Mesh::Texture texture;
                     texture.id = 0;
                     texture.type = "NONE";
-
-                    printf("Found zero textures for: %s\n", typeName.c_str());
 
                     return texture;
                 }
