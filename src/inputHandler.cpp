@@ -2,6 +2,7 @@
 
 #include "render/commonVars.hpp"
 #include "inputHandler.hpp"
+#include "util/specs.hpp"
 
 /**
  * @brief Handles user keyboard input not during update loop.
@@ -30,7 +31,32 @@ void processKeyInputLogic(GLFWwindow* window, float deltaTime)
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && cameraAngle.x >= -89.0) { cameraAngle.x -= cameraRotateSpeed * deltaTime; }
 }
 
-void processMouseInputLogic(GLFWwindow* window, float deltaTime)
+float lastX = windowWidth / 2;
+float lastY = windowHeight / 2;
+
+bool mouseInitialized = false;
+
+void processMouseMovementLogic(GLFWwindow* window, double xpos, double ypos)
 {
-    
+    if (!mouseInitialized)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        mouseInitialized = true;
+    }
+
+    float xOffset = xpos - lastX;
+    float yOffset = lastY - ypos;
+
+    lastX = xpos;
+    lastY = ypos;
+
+    xOffset *= cameraSensitivity;
+    yOffset *= cameraSensitivity;
+
+    cameraAngle.y += xOffset;
+    cameraAngle.x += yOffset;
+
+    if (cameraAngle.x > 89.0) { cameraAngle.x = 89.0; }
+    if (cameraAngle.x < -89.0) { cameraAngle.x = -89.0; }
 }

@@ -14,6 +14,7 @@ bool right;
 bool left;
 float cameraSpeed = 5;
 float cameraRotateSpeed = 25;
+float cameraSensitivity = 0.2;
 
 // Matrices
 glm::mat4 VP;

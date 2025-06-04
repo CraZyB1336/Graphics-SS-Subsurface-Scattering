@@ -66,4 +66,21 @@ void handleMovement(glm::vec3 direction, float deltaTime)
     {
         cameraPosition += direction * cameraSpeed * deltaTime;
     }
+
+    if (backward)
+    {
+        cameraPosition -= direction * cameraSpeed * deltaTime;
+    }
+
+    if (left)
+    {
+        glm::vec3 leftDir = {direction.z, direction.y, -direction.x};
+        cameraPosition += leftDir * cameraSpeed * deltaTime;
+    }
+
+    if (right)
+    {
+        glm::vec3 rightDir = {-direction.z, direction.y, direction.x};
+        cameraPosition += rightDir * cameraSpeed * deltaTime;
+    }
 }

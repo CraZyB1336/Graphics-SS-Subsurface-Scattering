@@ -30,6 +30,10 @@ void runProgram(GLFWwindow* window)
 
     glViewport(0, 0, windowWidth, windowHeight);
     glfwSetFramebufferSizeCallback(window, viewportResizeCallback);
+    glfwSetCursorPosCallback(window, processMouseMovementLogic);
+
+    // Cursor Options:
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // Init models and such
     initScene(window);

@@ -22,6 +22,7 @@ extern bool right;
 extern bool left;
 extern float cameraSpeed;
 extern float cameraRotateSpeed;
+extern float cameraSensitivity;
 
 
 // Matrices
