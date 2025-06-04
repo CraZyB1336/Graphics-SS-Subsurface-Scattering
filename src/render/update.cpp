@@ -1,11 +1,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 #include "update.hpp"
 #include "commonVars.hpp"
 #include "../util/specs.hpp"
 
 void updateNodeTransforms(Mesh::Mesh* node, glm::mat4 currentTransformation);
+void handleMovement(glm::vec3 direction, float deltaTime);
 
 /**
  * @brief Updates the logic for the current frame.
@@ -21,6 +23,8 @@ void updateFrame(float deltaTime)
     lookingDirection.x = cos(glm::radians(cameraAngle.y)) * cos(glm::radians(cameraAngle.x));
     lookingDirection.y = sin(glm::radians(cameraAngle.x));
     lookingDirection.z = sin(glm::radians(cameraAngle.y)) * cos(glm::radians(cameraAngle.x));
+
+    handleMovement(lookingDirection, deltaTime);
 
     glm::mat4 cameraTransform = glm::lookAt(cameraPosition, cameraPosition + lookingDirection, glm::vec3(0, 1, 0));
 
@@ -53,5 +57,13 @@ void updateNodeTransforms(Mesh::Mesh* node, glm::mat4 currentTransformation)
     for (Mesh::Mesh* child : node->children)
     {
         updateNodeTransforms(child, node->transMat);
+    }
+}
+
+void handleMovement(glm::vec3 direction, float deltaTime)
+{
+    if (forward)
+    {
+        cameraPosition += direction * cameraSpeed * deltaTime;
     }
 }

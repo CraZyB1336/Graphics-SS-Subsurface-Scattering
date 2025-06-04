@@ -14,7 +14,14 @@ extern glm::vec2 cameraAngle;
 extern float FOV;
 extern float nearPlane;
 extern float farPlane;
+
+// Movement
+extern bool forward;
+extern bool backward;
+extern bool right;
+extern bool left;
 extern float cameraSpeed;
+extern float cameraRotateSpeed;
 
 
 // Matrices

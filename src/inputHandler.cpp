@@ -20,8 +20,17 @@ void processKeyInputLogic(GLFWwindow* window, float deltaTime)
 {
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { cameraPosition.y += cameraSpeed * deltaTime; }
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) { cameraPosition.y -= cameraSpeed * deltaTime; }
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) { cameraPosition.z += cameraSpeed * deltaTime; }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) { cameraPosition.x += cameraSpeed * deltaTime; }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) { cameraPosition.x -= cameraSpeed * deltaTime; }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) { cameraPosition.z -= cameraSpeed * deltaTime; }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) { forward = true; } else { forward = false; }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) { left = true; } else { left = false; }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) { right = true;  } else { right = false; }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) { backward = true; } else { backward = false; }
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) { cameraAngle.y -= cameraRotateSpeed * deltaTime; }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) { cameraAngle.y += cameraRotateSpeed * deltaTime; }
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && cameraAngle.x <= 89.0) { cameraAngle.x += cameraRotateSpeed * deltaTime; }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && cameraAngle.x >= -89.0) { cameraAngle.x -= cameraRotateSpeed * deltaTime; }
+}
+
+void processMouseInputLogic(GLFWwindow* window, float deltaTime)
+{
+    
 }
