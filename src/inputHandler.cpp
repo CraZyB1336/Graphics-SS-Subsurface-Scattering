@@ -11,10 +11,13 @@
 void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     // Escape key closes OpenGL program. (Debug)
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, true);
     }
+
+    if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS && mouseActive == false ) { mouseActive = true; }
+    else if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS && mouseActive == true ) { mouseActive = false; }
 }
 
 void processKeyInputLogic(GLFWwindow* window, float deltaTime)
@@ -38,6 +41,8 @@ bool mouseInitialized = false;
 
 void processMouseMovementLogic(GLFWwindow* window, double xpos, double ypos)
 {
+    if (!mouseActive) return;
+
     if (!mouseInitialized)
     {
         lastX = xpos;

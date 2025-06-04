@@ -12,6 +12,7 @@ bool forward;
 bool backward;
 bool right;
 bool left;
+bool mouseActive = true;
 float cameraSpeed = 5;
 float cameraRotateSpeed = 25;
 float cameraSensitivity = 0.2;

@@ -20,6 +20,7 @@ extern bool forward;
 extern bool backward;
 extern bool right;
 extern bool left;
+extern bool mouseActive;
 extern float cameraSpeed;
 extern float cameraRotateSpeed;
 extern float cameraSensitivity;
