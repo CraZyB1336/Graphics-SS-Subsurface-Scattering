@@ -80,7 +80,8 @@ namespace Shader
             void attach(std::string const &filename, bool filenameIsExtension)
             {
                 // Create shader object
-                const char* source = getSource(filename).c_str();
+                std::string sourceString = getSource(filename).c_str();
+                const char* source = sourceString.c_str();
                 auto shader = create(filename, filenameIsExtension);
                 glShaderSource(shader, 1, &source, nullptr);
                 glCompileShader(shader);
