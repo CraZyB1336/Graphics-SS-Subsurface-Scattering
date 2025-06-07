@@ -47,7 +47,7 @@ void initModels()
 void initShaders()
 {
     mainShader = new Shader::Shader;
-    mainShader->attach("../resources/shaders/main.vert");
-    mainShader->attach("../resources/shaders/main.frag");
+    mainShader->attach("../resources/shaders/main.vert", false);
+    mainShader->attach("../resources/shaders/main.frag", false);
     mainShader->link();
 }
