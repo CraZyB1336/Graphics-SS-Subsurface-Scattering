@@ -1,4 +1,7 @@
 #version 430 core
+// Needed for intellisense to compile.
+// It is thrown out when reading the file.
+// Version is defined in shader.hpp
 
 in layout(location = 0) vec3 pos;
 in layout(location = 1) vec3 norm;

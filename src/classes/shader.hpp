@@ -8,9 +8,12 @@
 #include <fstream>
 #include <memory>
 #include <string>
+#include <sstream>
 
 namespace Shader
 {
+    const std::string SHADER_VERSION = "#version 430 core";
+
     class Shader
     {
         private:
@@ -70,37 +73,36 @@ namespace Shader
                     return nullptr;
                 }
 
-                return std::string(std::istreambuf_iterator<char>(fd), (std::istreambuf_iterator<char>()));
+                std::string content(std::istreambuf_iterator<char>(fd), (std::istreambuf_iterator<char>()));
+
+                std::istringstream iss(content);
+                std::string line;
+                std::string result;
+
+                // Remove #version from file
+                while (std::getline(iss, line))
+                {
+                    std::string trimmed = line;
+                    trimmed.erase(0, trimmed.find_first_not_of(" \t"));
+
+                    if (trimmed.find("#version") != 0)
+                    {
+                        result += line + "\n";
+                    }
+                }
+
+                return result;
             }
 
             /**
              * @brief Attach a shader to the current shader program.
              * @param filename The shader file location.
              */
-            void attach(std::string const &filename, bool filenameIsExtension)
+            void attach(std::string const &filename)
             {
                 // Create shader object
                 std::string sourceString = getSource(filename).c_str();
-                const char* source = sourceString.c_str();
-                auto shader = create(filename, filenameIsExtension);
-                glShaderSource(shader, 1, &source, nullptr);
-                glCompileShader(shader);
-
-                // Display errors
-                glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-                if (!status)
-                {
-                    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
-                    std::unique_ptr<char[]> buffer(new char[length]);
-                    glGetShaderInfoLog(shader, length, nullptr, buffer.get());
-                    fprintf(stderr, "%s\n%s", filename.c_str(), buffer.get());
-                }
-
-                assert(status);
-                
-                // Attach and free memory.
-                glAttachShader(programID, shader);
-                glDeleteShader(shader);
+                attachWithSource(filename, sourceString, false);
             }
 
             /**
@@ -108,9 +110,11 @@ namespace Shader
              * @param filename The shader file location.
              * @param source The parsed shader source file.
              */
-            void attachWithSource(std::string const &filename, const char* source, bool filenameIsExtension)
+            void attachWithSource(std::string const &filename, std::string const &sourceFile, bool filenameIsExtension)
             {
                 auto shader = create(filename, filenameIsExtension);
+                std::string combinedWithVersion = SHADER_VERSION + '\n' + sourceFile;
+                const char* source = combinedWithVersion.c_str();
                 glShaderSource(shader, 1, &source, nullptr);
                 glCompileShader(shader);
 
@@ -134,9 +138,9 @@ namespace Shader
             /**
              * @brief Combines two source shader programs into one shader program.
              */
-            const char* combine(std::string const &source1, std::string const &source2)
+            std::string combine(std::string const &source1, std::string const &source2)
             {
-                return (source1 + source2).c_str();
+                return source1 + source2;
             }
 
             /**
