@@ -60,21 +60,17 @@ namespace Shader
              * @brief Turn source file to a char pointer.
              * @param filename The filename location of the source file.
              */
-            const char* getSource(std::string const &filename)
+            std::string getSource(std::string const &filename)
             {
                 std::ifstream fd(filename.c_str());
 
                 if (fd.fail())
                 {
                     fprintf(stderr, "Error locating shader file: \"%s\"\n", filename.c_str());
-                    return;
+                    return nullptr;
                 }
 
-                auto src = std::string(std::istreambuf_iterator<char>(fd), (std::istreambuf_iterator<char>()));
-
-                // Create shader object
-                const char* source = src.c_str();
-                return source;
+                return std::string(std::istreambuf_iterator<char>(fd), (std::istreambuf_iterator<char>()));
             }
 
             /**
@@ -83,7 +79,8 @@ namespace Shader
              */
             void attach(std::string const &filename, bool filenameIsExtension)
             {
-                const char* source = getSource(filename);
+                // Create shader object
+                const char* source = getSource(filename).c_str();
                 auto shader = create(filename, filenameIsExtension);
                 glShaderSource(shader, 1, &source, nullptr);
                 glCompileShader(shader);
@@ -110,7 +107,7 @@ namespace Shader
              * @param filename The shader file location.
              * @param source The parsed shader source file.
              */
-            void attach(std::string const &filename, const char* source, bool filenameIsExtension)
+            void attachWithSource(std::string const &filename, const char* source, bool filenameIsExtension)
             {
                 auto shader = create(filename, filenameIsExtension);
                 glShaderSource(shader, 1, &source, nullptr);
@@ -136,9 +133,9 @@ namespace Shader
             /**
              * @brief Combines two source shader programs into one shader program.
              */
-            const char* combine(const char* source1, const char* source2)
+            const char* combine(std::string const &source1, std::string const &source2)
             {
-                return (std::string(source1) + std::string(source2)).c_str();
+                return (source1 + source2).c_str();
             }
 
             /**
@@ -171,7 +168,7 @@ namespace Shader
         private:
             GLuint create(std::string const &filename, bool filenameIsExtension)
             {
-                auto ext = filename;
+                std::string ext = filename;
 
                 if (!filenameIsExtension)
                 {
