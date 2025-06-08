@@ -1,1 +1,7 @@
-- [] Update shader to support concatenating
+- [x] Update shader to support concatenating
+- [] Calculate cascadelevel info CPU side
+- [] Calculate probe positions and probe grid positions cpu side
+- [] generate a shader storage buffer object to store the probe positions and such.
+- [] dispatch a compute shader to iterate through each probe
+- [] perform ray tracing based on ray info per cascade.
+

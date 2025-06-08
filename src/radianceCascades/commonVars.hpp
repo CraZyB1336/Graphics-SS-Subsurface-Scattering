@@ -11,8 +11,8 @@ namespace RadCas {
     const unsigned int CASCADE_0_RAY_AMOUNT = 4;
 
     const unsigned int CASCADE_LEVELS = 3;
-    const unsigned int CASCADE_LEVEL_FACTOR = 2.0;
-    const unsigned int CASCADE_RAY_FACTOR = 4.0;
+    const float CASCADE_LEVEL_FACTOR = 2.0;
+    const float CASCADE_RAY_FACTOR = 4.0;
 
     struct RadianceProbe {
         glm::vec3 worldPosition; // Where in the world this probe is
