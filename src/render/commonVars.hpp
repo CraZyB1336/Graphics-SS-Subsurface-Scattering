@@ -30,11 +30,13 @@ extern glm::mat4 VP;
 
 // Shaders
 extern Shader::Shader* mainShader;
+extern Shader::Shader* screenShader;
 
 // Models
 extern Mesh::Mesh* rootNode;
 extern Model::Model* plantModel;
 extern Model::Model* dragonModel;
 extern Model::Model* sceneboxModel;
+extern Mesh::Mesh* screenPlaneMesh;
 
 #endif

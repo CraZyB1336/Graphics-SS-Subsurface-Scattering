@@ -21,9 +21,11 @@ glm::mat4 VP;
 
 // Shaders
 Shader::Shader* mainShader;
+Shader::Shader* screenShader;
 
 // Models
 Mesh::Mesh* rootNode;
 Model::Model* plantModel;
 Model::Model* dragonModel;
 Model::Model* sceneboxModel;
+Mesh::Mesh* screenPlaneMesh;

@@ -12,7 +12,8 @@ void renderFrame()
 {
     // Have to render each mesh's draw function.
     // For now just manually activate
-    mainShader->activate();
+    // mainShader->activate();
+    screenShader->activate();
 
     // Pass in VP
     glUniformMatrix4fv(mainShader->getUniformFromName("VP"), 1, GL_FALSE, glm::value_ptr(VP));
