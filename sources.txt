@@ -1,0 +1,6 @@
+Radiance Cascades:
+Tutorial: https://mini.gmshaders.com/p/radiance-cascades
+Reference Site: https://radiance-cascades.com/
+Original Paper: https://github.com/Raikiri/RadianceCascadesPaper
+Simon Dev implementation: https://github.com/simondevyoutube/Shaders_RadianceCascades/
+Simon Dev YT video: https://www.youtube.com/watch?v=3so7xdZHKxw
