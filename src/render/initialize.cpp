@@ -2,6 +2,7 @@
 #include "commonVars.hpp"
 #include "initialize.hpp"
 #include "../inputHandler.hpp"
+#include "../radianceCascades/initialize.hpp"
 
 #include "../data/plane.hpp"
 
@@ -19,6 +20,7 @@ void initScene(GLFWwindow* window)
 
     initShaders();
     initModels();
+    initCascade();
 }
 
 /**

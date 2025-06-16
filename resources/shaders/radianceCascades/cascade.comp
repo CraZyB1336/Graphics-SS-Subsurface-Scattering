@@ -1,0 +1,38 @@
+#version 430 core
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+uniform uint cascadeIndex;
+uniform ivec2 cascadeTextureDimensions;
+
+// Probe data
+uniform int probeSpacing;
+uniform int probeRayAmount; 
+
+layout(binding = 0, rgba32f) uniform image2D cascadeOutput;
+
+void main()
+{
+    ivec2 pixelCoord = ivec2(gl_GlobalInvocationID.xy);
+
+    // PixelCoord out of bounds
+    if (pixelCoord.x >= cascadeTextureDimensions.x ||
+        pixelCoord.y >= cascadeTextureDimensions.y)
+    {
+        return;
+    }
+
+    // Where in the grid this probe is
+    vec2 gridCoord = floor(pixelCoord / probeSpacing);
+    vec2 gridSize = floor(cascadeTextureDimensions / probeSpacing);
+
+    // Where the ray is
+    vec2 rayInSquare = mod(pixelCoord, probeSpacing);
+    vec2 normalizedPos = (rayInSquare / probeSpacing);
+
+    float rayIndex = rayInSquare.y * probeSpacing + rayInSquare.x;
+
+    imageStore(cascadeOutput, pixelCoord, vec4(normalizedPos.x, normalizedPos.y, 0.0, 1.0));
+}
+
+

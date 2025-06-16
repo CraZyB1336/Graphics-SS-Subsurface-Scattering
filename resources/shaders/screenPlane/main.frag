@@ -5,16 +5,19 @@ in layout(location = 2) vec2 texCoords;
 
 out vec4 color;
 
+layout(binding = 0, rgba32f) uniform image2D cascadeTexture;
+
 void main()
 {
-    ivec2 pixel = ivec2(gl_FragCoord.xy);
+    ivec2 size = imageSize(cascadeTexture);
+    ivec2 pixelCoord = ivec2(gl_FragCoord);
 
-    if (((pixel.x / 100) + (pixel.y / 100)) % 2 == 0)
+    if (pixelCoord.x > size.x || pixelCoord.y > size.y)
     {
-        color = vec4(1.0, 0.0, 1.0, 1.0);   
+        return;
     }
-    else
-    {
-        color = vec4(0.0, 0.5, 1.0, 1.0);
-    }
+
+    vec4 cascadeData = imageLoad(cascadeTexture, pixelCoord);
+
+    color = vec4(cascadeData.xyz, 1.0);
 }
