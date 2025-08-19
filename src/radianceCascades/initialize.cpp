@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-
-#include "commonVars.hpp"
-#include "initialize.hpp"
-
-
-// Code is inspired by SimonDev's 2D implementation for radiance cascades
-// https://github.com/simondevyoutube/Shaders_RadianceCascades/
-void initializeCascades()
-{
-    // Give base uniforms and 
-=======
 #include "commonVars.hpp"
 #include "initialize.hpp"
 
@@ -45,5 +33,4 @@ unsigned int calculateCascadeCount(unsigned int width, unsigned int height, floa
     float intervalStart = (startingInterval * (1.0 - pow(4.0, factor))) / (1.0 - 4.0);
 
     return ceil(log(intervalStart) / log(4));
->>>>>>> f39d4194a7674136d24544fcf81a6f8d7a401921
 }
