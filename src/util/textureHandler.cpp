@@ -45,3 +45,24 @@ unsigned int generateTextureFromFile(std::string filePath)
     stbi_image_free(data);
     return textureID;
 }
+
+/**
+ * @brief Generate an empty texture storage.
+ * @param width Width of the texture.
+ * @param height Height of the texture.
+ * @returns The textureID.
+ */
+unsigned int generateEmptyTexture(unsigned int width, unsigned int height)
+{
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA32F, width, height);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    return texture;
+}

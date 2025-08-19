@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ifndef COMMONVARS_RADCAS_HPP
 #define COMMONVARS_RADCAS_HPP
 #pragma once
@@ -34,5 +35,24 @@ namespace RadCas {
 
 extern std::vector<RadCas::CascadeLevel> cascades;
 extern glm::vec3 worldBounds;
+=======
+#ifndef RADCAS_COMMONVARS_HPP
+#define RADCAS_COMMONVARS_HPP
+#pragma once
+
+#include <glm/glm.hpp>
+
+#include "../classes/shader.hpp"
+
+extern Shader::Shader* cascadeShader;
+
+extern unsigned int cascadeAmount;
+extern int cascade0Range;
+extern int cascade0Spacing;
+extern unsigned int cascadeWidth;
+extern unsigned int cascadeHeight;
+extern std::vector<unsigned int> cascadeTextures;
+extern glm::vec2 renderResolution2D; // Resolution to render 
+>>>>>>> f39d4194a7674136d24544fcf81a6f8d7a401921
 
 #endif

@@ -1,0 +1,118 @@
+#version 430 core
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+uniform ivec2 renderResolution;
+uniform uint cascadeIndex;
+uniform ivec2 cascadeTextureDimensions;
+
+// Probe data
+uniform int probeSpacing;
+uniform int probeRayAmount; 
+uniform vec2 probeRayRange;
+
+layout(binding = 0, rgba32f) uniform image2D cascadeOutput;
+
+vec3 circleColor[5] = {
+    vec3(0.38, 1, 1),
+    vec3(0.91, 0.38, 1),
+    vec3(0.71, 0.08, 0.43),
+    vec3(0.42, 0.16, 0),
+    vec3(0.34, 0.88, 0.43)
+};
+
+vec3 circleData[5] = {
+    vec3(100, 100, 70),
+    vec3(200, 300, 80),
+    vec3(300, 500, 90),
+    vec3(400, 700, 100),
+    vec3(800, 700, 110)
+};
+
+vec4 sampleSDF(vec2 position)
+{
+    float minDistance = 999999.0;
+    vec3 color = vec3(0.0);
+
+    for (int i = 0; i < 5; i++)
+    {
+        float dist = length(position - circleData[i].xy) - circleData[i].z;
+
+        if (dist < minDistance)
+        {
+            minDistance = dist;
+            color = circleColor[i];
+        }
+    }
+
+    return vec4(color, minDistance);
+}
+
+// https://github.com/simondevyoutube/Shaders_RadianceCascades/blob/main/shaders/cascades.glsl
+vec4 rayMarch(vec2 point, float angle, float offset, float len)
+{
+    vec2 rayDir = vec2(cos(angle), sin(angle)); 
+
+    float t = offset;
+
+    for (float i = 0.0; i < 64.0; i++)
+    {
+        vec2 currentPosition = point + t * rayDir;
+
+        if (t > len)
+        {
+            break;
+        }
+
+        if (currentPosition.x < 0.0 || currentPosition.x > renderResolution.x - 1.0 ||
+            currentPosition.y < 0.0 || currentPosition.y > renderResolution.y - 1.0)
+        {
+            break;
+        }
+
+        vec4 sceneSample = sampleSDF((currentPosition + 0.5));
+
+        float sceneDist = sceneSample.w;
+        vec3 sceneColor = sceneSample.xyz;
+        if (sceneDist > 0.1)
+        {
+            t += sceneDist;
+            continue;
+        }
+
+        return vec4(sceneColor, 0.0);
+    }
+
+    return vec4(vec3(0.0), 1.0);
+}
+
+void main()
+{
+    ivec2 pixelCoord = ivec2(gl_GlobalInvocationID.xy);
+
+    // PixelCoord out of bounds
+    if (pixelCoord.x >= cascadeTextureDimensions.x ||
+        pixelCoord.y >= cascadeTextureDimensions.y)
+    {
+        return;
+    }
+
+    // Where in the grid this probe is
+    vec2 gridCoord = floor(pixelCoord / probeSpacing);
+    vec2 gridSize = floor(cascadeTextureDimensions / probeSpacing);
+
+    // Where the ray is
+    vec2 rayInSquare = mod(pixelCoord, probeSpacing);
+    vec2 normalizedPos = (rayInSquare / probeSpacing);
+
+    float rayIndex = rayInSquare.y * probeSpacing + rayInSquare.x;
+    float rayAngle = (rayIndex / float(probeRayAmount)) * radians(180.0) * 2;
+
+    vec2 rayOrigin = (float(probeSpacing) * gridCoord + 0.5 * (float(probeSpacing) * gridCoord - 1.0)) * renderResolution / cascadeTextureDimensions;
+
+    vec4 radiance = rayMarch(rayOrigin, rayAngle, probeRayRange.x, probeRayRange.y);
+
+    imageStore(cascadeOutput, pixelCoord, radiance);
+}
+
+
